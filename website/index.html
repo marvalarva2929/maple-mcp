@@ -222,8 +222,7 @@
       font-family: var(--mono);
       font-size: 0.82rem;
       line-height: 1.8;
-      overflow-x: auto;
-      overflow-y: auto;
+      overflow: hidden;
       height: 480px;
     }
 
@@ -886,7 +885,7 @@
     async function type(el, text, speed = 20) {
       for (const ch of text) {
         el.textContent += ch;
-        out.scrollTop = out.scrollHeight;
+
         await sleep(speed + (Math.random() * 8 - 4));
       }
     }
@@ -898,7 +897,7 @@
       let i = 0;
       while (Date.now() < end) {
         el.textContent = frames[i++ % frames.length];
-        out.scrollTop = out.scrollHeight;
+
         await sleep(120);
       }
       el.remove();

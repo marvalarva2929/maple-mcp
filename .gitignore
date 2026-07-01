@@ -1,3 +1,5 @@
 node_modules/
 dist/
 claims.jsonl
+web/.next/
+web/node_modules/
