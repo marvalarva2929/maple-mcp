@@ -148,20 +148,20 @@
     .install-box {
       display: inline-flex;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
       background: var(--surface);
       border: 1px solid var(--border2);
-      border-radius: 12px;
-      padding: 16px 24px;
+      border-radius: 14px;
+      padding: 22px 36px;
       font-family: var(--mono);
-      font-size: 1rem;
+      font-size: 1.2rem;
       color: var(--muted2);
       cursor: pointer;
       transition: border-color 0.15s;
     }
     .install-box:hover { border-color: var(--orange); }
     .install-box .cmd { color: var(--text); }
-    .install-box .copy-icon { color: var(--muted); font-size: 1rem; }
+    .install-box .copy-icon { color: var(--muted); font-size: 1.1rem; }
 
     /* ── TERMINAL ── */
     .section { padding: 80px 2rem; }
@@ -223,6 +223,8 @@
       font-size: 0.82rem;
       line-height: 1.8;
       overflow-x: auto;
+      overflow-y: auto;
+      height: 480px;
     }
 
     .t-prompt { color: var(--green); }
@@ -467,13 +469,13 @@
     .install-big {
       display: inline-flex;
       align-items: center;
-      gap: 16px;
+      gap: 20px;
       background: var(--surface);
       border: 1px solid var(--border2);
-      border-radius: 14px;
-      padding: 20px 32px;
+      border-radius: 16px;
+      padding: 26px 48px;
       font-family: var(--mono);
-      font-size: 1.05rem;
+      font-size: 1.25rem;
       color: var(--text);
       cursor: pointer;
       transition: border-color 0.15s;
@@ -502,6 +504,19 @@
 
     footer a { color: var(--muted2); }
     footer a:hover { color: var(--text); }
+
+    /* ── TERMINAL ANIMATION ── */
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+    .blink-cursor { animation: blink 1s step-end infinite; }
+
+    @keyframes rowIn {
+      from { opacity: 0; transform: translateX(-6px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .t-box-row { animation: rowIn 0.18s ease-out both; }
 
     /* ── COPY TOAST ── */
     .toast {
@@ -576,75 +591,7 @@
         <span class="dot dot-g"></span>
         <span class="terminal-title">claude code — ~/projects/my-app</span>
       </div>
-      <div class="terminal-body">
-
-        <div class="t-block">
-          <span class="t-line"><span class="t-prompt">You</span></span>
-          <span class="t-line t-cmd">I need to add auth and a database to my Next.js app. What should I use?</span>
-        </div>
-
-        <div class="t-block">
-          <span class="t-line"><span class="t-muted">Claude</span></span>
-          <span class="t-line t-result">For a Next.js app, Supabase is a great choice — it gives you Postgres,</span>
-          <span class="t-line t-result">auth, and storage in one. Let me check Maple for any exclusive deals...</span>
-        </div>
-
-        <div class="t-block">
-          <span class="t-line t-dim">  ⚙  <span class="t-tool">get_recommendations</span>(<span class="t-param">stack</span>=<span class="t-str">"Next.js TypeScript"</span>, <span class="t-param">problem</span>=<span class="t-str">"auth and postgres database"</span>)</span>
-        </div>
-
-        <div class="t-block">
-          <span class="t-line"><span class="t-leaf">🍁 Maple</span> <span class="t-muted">— found 3 exclusive deals for your stack:</span></span>
-        </div>
-
-        <div class="t-box">
-          <div class="t-box-row featured">
-            <span class="t-rank">1.</span>
-            <span class="t-deal">Supabase</span>
-            <span class="t-muted">—</span>
-            <span class="t-result">3 Months Free on Pro Plan</span>
-            <span style="margin-left:auto"><span class="t-save">save ~$75</span></span>
-          </div>
-          <div class="t-box-row">
-            <span class="t-rank">2.</span>
-            <span class="t-result">Clerk</span>
-            <span class="t-muted">—</span>
-            <span class="t-result">25% Off Pro · 6 Months</span>
-            <span style="margin-left:auto"><span class="t-save">save ~$45</span></span>
-          </div>
-          <div class="t-box-row">
-            <span class="t-rank">3.</span>
-            <span class="t-result">Neon</span>
-            <span class="t-muted">—</span>
-            <span class="t-result">Free Scale Plan · 2 Months</span>
-            <span style="margin-left:auto"><span class="t-save">save ~$30</span></span>
-          </div>
-        </div>
-
-        <div class="t-block" style="margin-top:1rem">
-          <span class="t-line t-dim">  ⚙  <span class="t-tool">get_discount</span>(<span class="t-param">discount_id</span>=<span class="t-str">"supabase-3mo-free"</span>)</span>
-        </div>
-
-        <div class="t-block">
-          <span class="t-line"><span class="t-muted">Claude</span></span>
-          <span class="t-line t-result">Here's your exclusive Supabase deal via Maple:</span>
-          <span class="t-line">&nbsp;</span>
-          <span class="t-line t-result">  → <span class="t-code">https://maple.dev/r/supabase-3mo-free</span></span>
-          <span class="t-line">&nbsp;</span>
-          <span class="t-line t-result">Click that link — Supabase will recognise you came through Maple</span>
-          <span class="t-line t-result">and apply 3 months of Pro free (~$75 value) to your account.</span>
-          <span class="t-line">&nbsp;</span>
-          <span class="t-line t-result">Want me to set up the Supabase client while you sign up?</span>
-        </div>
-
-        <div class="t-block">
-          <span class="t-line"><span class="t-prompt">You</span></span>
-          <span class="t-line t-cmd">yes please</span>
-        </div>
-
-        <span class="t-prompt">▍</span>
-
-      </div>
+      <div class="terminal-body" id="terminal-output"></div>
     </div>
   </div>
 </section>
@@ -910,13 +857,149 @@
 <div class="toast" id="toast">Copied to clipboard!</div>
 
 <script>
-  function copy(text, el) {
+  // ── copy ──
+  function copy(text) {
     navigator.clipboard.writeText(text).then(() => {
       const toast = document.getElementById('toast');
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 2000);
     });
   }
+
+  // ── terminal animation ──
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+  async function runTerminal() {
+    const out = document.getElementById('terminal-output');
+    out.innerHTML = '';
+
+    function line(html, cls = '') {
+      const el = document.createElement('span');
+      el.className = ('t-line ' + cls).trim();
+      el.innerHTML = html;
+      out.appendChild(el);
+      return el;
+    }
+
+    function spacer() { line(''); }
+
+    async function type(el, text, speed = 20) {
+      for (const ch of text) {
+        el.textContent += ch;
+        out.scrollTop = out.scrollHeight;
+        await sleep(speed + (Math.random() * 8 - 4));
+      }
+    }
+
+    async function dots(ms = 550) {
+      const el = line('', 't-dim');
+      const frames = ['  ·', '  · ·', '  · · ·', '  · ·'];
+      const end = Date.now() + ms;
+      let i = 0;
+      while (Date.now() < end) {
+        el.textContent = frames[i++ % frames.length];
+        out.scrollTop = out.scrollHeight;
+        await sleep(120);
+      }
+      el.remove();
+    }
+
+    // ── User question ──
+    line('<span class="t-prompt">You</span>');
+    const q = line('', 't-cmd');
+    await type(q, 'I need to add auth and a database to my Next.js app. What should I use?', 22);
+    spacer();
+    await sleep(280);
+
+    // ── Claude response ──
+    line('<span class="t-muted">Claude</span>');
+    const r1 = line('', 't-result');
+    await type(r1, 'For a Next.js app, Supabase is a great choice — it gives you Postgres,', 11);
+    const r2 = line('', 't-result');
+    await type(r2, 'auth, and storage in one. Let me check Maple for any exclusive deals...', 11);
+    spacer();
+    await sleep(180);
+
+    // ── Tool call 1 ──
+    line(
+      '  ⚙&nbsp; <span class="t-tool">get_recommendations</span>' +
+      '(<span class="t-param">stack</span>=<span class="t-str">"Next.js TypeScript"</span>, ' +
+      '<span class="t-param">problem</span>=<span class="t-str">"auth and postgres database"</span>)',
+      't-dim'
+    );
+    await dots(550);
+    spacer();
+
+    // ── Results ──
+    line('<span class="t-leaf">🍁 Maple</span> <span class="t-muted">— found 3 exclusive deals for your stack:</span>');
+    await sleep(80);
+
+    const box = document.createElement('div');
+    box.className = 't-box';
+    out.appendChild(box);
+
+    const deals = [
+      { rank: '1.', name: 'Supabase', title: '3 Months Free on Pro Plan', save: 'save ~$75', hot: true  },
+      { rank: '2.', name: 'Clerk',    title: '25% Off Pro · 6 Months',    save: 'save ~$45', hot: false },
+      { rank: '3.', name: 'Neon',     title: 'Free Scale Plan · 2 Months', save: 'save ~$30', hot: false },
+    ];
+
+    for (const d of deals) {
+      await sleep(160);
+      const row = document.createElement('div');
+      row.className = 't-box-row' + (d.hot ? ' featured' : '');
+      row.innerHTML =
+        `<span class="t-rank">${d.rank}</span>` +
+        `<span class="${d.hot ? 't-deal' : 't-result'}">${d.name}</span>` +
+        `<span class="t-muted"> — </span>` +
+        `<span class="t-result">${d.title}</span>` +
+        `<span class="t-save" style="margin-left:auto">${d.save}</span>`;
+      box.appendChild(row);
+      out.scrollTop = out.scrollHeight;
+    }
+
+    spacer();
+    await sleep(380);
+
+    // ── Tool call 2 ──
+    line(
+      '  ⚙&nbsp; <span class="t-tool">get_discount</span>' +
+      '(<span class="t-param">discount_id</span>=<span class="t-str">"supabase-3mo-free"</span>)',
+      't-dim'
+    );
+    await dots(480);
+    spacer();
+
+    // ── Final response ──
+    line('<span class="t-muted">Claude</span>');
+    const f1 = line('', 't-result');
+    await type(f1, "Here's your exclusive Supabase deal via Maple:", 11);
+    spacer();
+    const f2 = line('', 't-code');
+    await type(f2, '  → https://maple.dev/r/supabase-3mo-free', 13);
+    spacer();
+    const f3 = line('', 't-result');
+    await type(f3, 'Click that link — Supabase will recognise you came through Maple', 10);
+    const f4 = line('', 't-result');
+    await type(f4, 'and apply 3 months of Pro free (~$75). Want me to set up the', 10);
+    const f5 = line('', 't-result');
+    await type(f5, 'Supabase client while you sign up?', 10);
+    spacer();
+
+    // ── Blinking cursor ──
+    const cur = line('▍', 't-prompt blink-cursor');
+    out.scrollTop = out.scrollHeight;
+
+    await sleep(2800);
+    cur.remove();
+    runTerminal();
+  }
+
+  // Start when the terminal scrolls into view
+  const obs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) { runTerminal(); obs.disconnect(); }
+  }, { threshold: 0.25 });
+  obs.observe(document.getElementById('terminal-output'));
 </script>
 
 </body>

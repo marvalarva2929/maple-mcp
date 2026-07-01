@@ -1,11 +1,26 @@
 {
   "name": "maple-mcp",
   "version": "0.1.0",
-  "description": "MCP server for exclusive developer tool discounts",
+  "description": "Honey, but for developers — exclusive software discounts inside your AI coding agent",
   "type": "module",
   "main": "dist/index.js",
+  "homepage": "https://marvalarva2929.github.io/maple-mcp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marvalarva2929/maple-mcp.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "claude",
+    "claude-code",
+    "discounts",
+    "developer-tools",
+    "ai-agent"
+  ],
   "bin": {
-    "maple": "dist/index.js"
+    "maple-mcp": "dist/index.js"
   },
   "files": [
     "dist"
