@@ -15,7 +15,7 @@ export async function GET() {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://maple.dev'
+  const base = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://maple-mcp.vercel.app/'
 
   const discounts = (data ?? []).map((d: any) => ({
     id: d.id,

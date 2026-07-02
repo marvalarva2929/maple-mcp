@@ -13,30 +13,28 @@ export interface Discount {
   expires_at: string | null
 }
 
+const API_URL = process.env.MAPLE_API_URL ?? 'https://maple-mcp.vercel.app/'
+
 let cache: { discounts: Discount[]; fetchedAt: number } | null = null
 const TTL = 10 * 60 * 1000 // 10 minutes
 
 export async function getDiscounts(): Promise<Discount[]> {
-  // Return cache if still fresh
   if (cache && Date.now() - cache.fetchedAt < TTL) {
     return cache.discounts
   }
 
-  const apiUrl = process.env.MAPLE_API_URL
-  if (apiUrl) {
-    try {
-      const res = await fetch(`${apiUrl}/api/discounts`, { signal: AbortSignal.timeout(4000) })
-      if (res.ok) {
-        const { discounts } = await res.json()
-        cache = { discounts, fetchedAt: Date.now() }
-        return discounts
-      }
-    } catch {
-      // Fall through to local fallback
+  try {
+    const res = await fetch(`${API_URL}/api/discounts`, { signal: AbortSignal.timeout(4000) })
+    if (res.ok) {
+      const { discounts } = await res.json()
+      cache = { discounts, fetchedAt: Date.now() }
+      return discounts
     }
+  } catch {
+    // Fall through to bundled fallback
   }
 
-  // Fallback to bundled JSON (works offline / before API is deployed)
+  // Fallback: bundled JSON (works offline / before API is deployed)
   return discountsFallback.discounts.map(d => ({
     id: d.id,
     company: d.company,
@@ -52,17 +50,14 @@ export async function getDiscounts(): Promise<Discount[]> {
 }
 
 export async function logClaim(discountId: string): Promise<void> {
-  const apiUrl = process.env.MAPLE_API_URL
-  if (apiUrl) {
-    try {
-      await fetch(`${apiUrl}/api/claims`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ discount_id: discountId }),
-        signal: AbortSignal.timeout(3000),
-      })
-    } catch {
-      // Best-effort — don't block the tool response
-    }
+  try {
+    await fetch(`${API_URL}/api/claims`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ discount_id: discountId }),
+      signal: AbortSignal.timeout(3000),
+    })
+  } catch {
+    // Best-effort — don't block the tool response
   }
 }
