@@ -1,9 +1,10 @@
 import Stripe from 'stripe'
 
 let _stripe: Stripe | null = null
-function getStripe(): Stripe {
+function getStripe(): Stripe | null {
+  if (!process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY.startsWith('sk_live_...')) return null
   if (!_stripe) {
-    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2025-02-24.acacia' })
+    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2025-02-24.acacia' })
   }
   return _stripe
 }
@@ -13,8 +14,10 @@ export async function chargeCompany(
   amount: number,  // in dollars
   description: string
 ): Promise<{ charged: boolean; chargeId?: string; error?: string }> {
+  const stripe = getStripe()
+  if (!stripe) return { charged: false, error: 'Stripe not configured' }
   try {
-    const paymentMethods = await getStripe().paymentMethods.list({
+    const paymentMethods = await stripe.paymentMethods.list({
       customer: stripeCustomerId,
       type: 'card',
     })
@@ -23,7 +26,7 @@ export async function chargeCompany(
       return { charged: false, error: 'No payment method on file' }
     }
 
-    const intent = await getStripe().paymentIntents.create({
+    const intent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100), // cents
       currency: 'usd',
       customer: stripeCustomerId,
@@ -39,7 +42,9 @@ export async function chargeCompany(
   }
 }
 
-export async function createStripeCustomer(email: string, name: string): Promise<string> {
-  const customer = await getStripe().customers.create({ email, name })
+export async function createStripeCustomer(email: string, name: string): Promise<string | null> {
+  const stripe = getStripe()
+  if (!stripe) return null
+  const customer = await stripe.customers.create({ email, name })
   return customer.id
 }

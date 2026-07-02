@@ -20,7 +20,7 @@ async function saveCompany(formData: FormData) {
     email: user.email,
     name,
     website: website || null,
-    stripe_customer_id: stripeCustomerId,
+    ...(stripeCustomerId ? { stripe_customer_id: stripeCustomerId } : {}),
   }, { onConflict: 'email' })
 
   redirect('/partners')
